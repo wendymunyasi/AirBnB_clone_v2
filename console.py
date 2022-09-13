@@ -128,7 +128,7 @@ class HBNBCommand(cmd.Cmd):
                 my_att = attr.split('=')
                 try:
                     casted = HBNBCommand.verify_attribute(my_att[1])
-                except:
+                except Exception:
                     continue
                 if not casted:
                     continue
@@ -333,7 +333,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
-        
+
     @classmethod
     def verify_attribute(cls, attribute):
         """verifies that an attribute is correctly formatted
