@@ -9,6 +9,7 @@ from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import Float
 
+
 class Place(BaseModel, Base):
     """ 
     Define a place
