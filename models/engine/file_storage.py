@@ -69,6 +69,7 @@ class FileStorage:
             obj (models.class.<any model>, optional): object to delete.
             Defaults to None.
         """
-        if obj:
-            FileStorage.__objects.pop(obj.id, None)
-            self.save()
+        if obj in self.__objects.values():
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            del(self.__objects[key])
+        return
