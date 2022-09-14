@@ -73,7 +73,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] is '{' and pline[-1] is'}'\
+                    if pline[0] is '{' and pline[-1] is '}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -114,17 +114,31 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class"""
-        if not args:
+        """ Create an object of any class
+
+        Command syntax: create <Class name> <param 1> <param 2> <param 3>...
+        Param syntax: <key name>=<value>
+        """
+        try:
+            if not args:
+                raise SyntaxError()
+            my_list = args.split(" ")
+            obj = eval("{}()".format(my_list[0]))
+            for attr in my_list[1:]:
+                my_att = attr.split('=')
+                try:
+                    casted = HBNBCommand.verify_attribute(my_att[1])
+                except Exception:
+                    continue
+                if not casted:
+                    continue
+                setattr(obj, my_att[0], casted)
+            obj.save()
+            print("{}".format(obj.id))
+        except SyntaxError:
             print("** class name missing **")
-            return
-        elif args not in HBNBCommand.classes:
+        except NameError as e:
             print("** class doesn't exist **")
-            return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
-        print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -319,6 +333,39 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
+    @classmethod
+    def verify_attribute(cls, attribute):
+        """verifies that an attribute is correctly formatted
+
+        Args:
+            attribute (any): attribute to be verified.
+
+        Returns:
+            any: attribute.
+        """
+        if attribute[0] is attribute[-1] is '"':
+            for i, c in enumerate(attribute[1:-1]):
+                if c is '"' and attribute[i] is not '\\':
+                    return None
+                if c is " ":
+                    return None
+            return attribute.strip('"').replace('_', ' ').replace("\\\"", "\"")
+        else:
+            flag = 0
+            allowed = "0123456789.-"
+            for c in attribute:
+                if c not in allowed:
+                    return None
+                if c is '.' and flag == 1:
+                    return None
+                elif c is '.' and flag == 0:
+                    flag = 1
+            if flag == 1:
+                return float(attribute)
+            else:
+                return int(attribute)
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
