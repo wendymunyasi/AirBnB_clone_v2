@@ -142,11 +142,11 @@ Usage: <class_name>.update(<_id>, <dictionary>)
 <br>
 
 
-
-
-
 # Tasks
 ## 7. DBStorage - User
-`bash
+```bash
 pycodestyle models/user.py; chmod +x models/user.py;
-`
+```
+
+## 8. DBStorage - Place 
+Update Place: (models/place.py)
