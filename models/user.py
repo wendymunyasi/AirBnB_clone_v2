@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """This module defines a class User"""
-from models.base_model import BaseModel
-from models.base_model import Base
+from models.base_model import BaseModel, Base
 
 # SQLAlchemy modules
 from sqlalchemy import Column
@@ -32,3 +31,7 @@ class User(BaseModel, Base):
                           backref='user',
                           cascade='all, delete-orphan',
                           passive_deletes=True)
+    reviews = relationship('Review',
+                           backref='user',
+                           cascade='all, delete-orphan',
+                           passive_deletes=True)
