@@ -11,15 +11,15 @@ from sqlalchemy.orm import relationship
 
 class User(BaseModel, Base):
     """
-    Defines a user
+    Defines a class User
 
     Attributes:
         __tablename__ (str): Users MySQL table name
 
-        email: (sqlalchemy String): User's email address column
-        password (sqlalchemy String): User's password column
-        first_name (sqlalchemy String): User's first name column
-        last_name (sqlalchemy String): User's last name column
+        email (String): User's email address column
+        password (String): User's password column
+        first_name (String): User's first name column
+        last_name (String): User's last name column
     """
     __tablename__ = 'users'
 
@@ -28,5 +28,7 @@ class User(BaseModel, Base):
     first_name = Column(String(128))
     last_name = Column(String(128))
 
-    # Relatioships
-    places = relationship("Place", backref="user", cascade="delete")
+    places = relationship('Place',
+                          backref='user',
+                          cascade='all, delete-orphan',
+                          passive_deletes=True)

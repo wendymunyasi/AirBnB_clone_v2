@@ -1,45 +1,41 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
-from models.base_model import BaseModel
-from models.base_model import Base
-
+from models.base_model import BaseModel, Base
 # SQLAlchemy modules
-from sqlalchemy import String
-from sqlalchemy import Column
-from sqlalchemy import Integer
-from sqlalchemy import Float
+from models.base_model import BaseModel, Base
+from sqlalchemy import Column, String, ForeignKey, Integer, Float
 
 
 class Place(BaseModel, Base):
-    """ 
+    """
     Define a place
 
     Attributes:
         __tablename__ (str): Place MySQL table name
 
-        city_id (sqlalchemy String): Place city id
-        user_id (sqlalchemy String): Place user id
-        name (sqlalchemy String): Place name
-        description (sqlalchemy String): Place description
-        number_rooms (sqlalchemy Integer): Place number of rooms
-        number_bathrooms (sqlalchemy Integer): Placenumber of bathrooms
-        max_guest (sqlalchemy Integer): Place maximum number of guests
-        price_by_night (sqlalchemy Integer): Place price by night
-        latitude (sqlalchemy Float): Place latitude
-        longitude (sqlalchemy Float): Place  longitude
+        city_id (string): id of city.
+        user_id (string): id of user.
+        name (string): name of Place.
+        description (string): description of place.
+        number_rooms (integer): number of rooms in place.
+        number_bathrooms (integer): number of bathrooms in place.
+        max_guest (integer): maximum number of guests allowed in a place.
+        price_by_night (integer): price of room per night.
+        latitude (float): latitude of place on a map.
+        longitude (float): longitude of place on a map.
+        amenity_ids (list (of string)): list of Amenity.id of place.
     """
     __tablename__ = "places"
 
-    city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
-    user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
+    city_id = Column(String(60), ForeignKey("cities.id", ondelete='CASCADE'),
+                     nullable=False)
+    user_id = Column(String(60), ForeignKey("users.id", ondelete='CASCADE'),
+                     nullable=False)
     name = Column(String(128), nullable=False)
-    description = Column(String(1024))
-    number_rooms = Column(Integer, default=0)
-    number_bathrooms = Column(Integer, default=0)
-    max_guest = Column(Integer, default=0)
-    price_by_night = Column(Integer, default=0)
-    latitude = Column(Float)
-    longitude = Column(Float)
-    longitude = 0.0
-
-    amenity_ids = []
+    description = Column(String(1024), nullable=True)
+    number_rooms = Column(Integer, nullable=False, default=0)
+    number_bathrooms = Column(Integer, nullable=False, default=0)
+    max_guest = Column(Integer, nullable=False, default=0)
+    price_by_night = Column(Integer, nullable=False, default=0)
+    latitude = Column(Float, nullable=True)
+    longitude = Column(Float, nullable=True)
