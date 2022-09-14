@@ -70,7 +70,5 @@ class FileStorage:
             Defaults to None.
         """
         if obj:
-            print("type of object")
-            print(type(obj))
             FileStorage.__objects.pop(obj.id, None)
             self.save()
