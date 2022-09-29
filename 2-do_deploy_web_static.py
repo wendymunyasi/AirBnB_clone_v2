@@ -104,7 +104,3 @@ def do_deploy(archive_path):
 
     except Exception:
         return False
-
-
-if __name__ == "__main__":
-    do_pack()
