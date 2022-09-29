@@ -38,4 +38,3 @@ chown -R ubuntu:ubuntu /data/
 # Use alias inside your Nginx configuration
 sed -i '38i\\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t\tautoindex off;\n\t}\n' /etc/nginx/sites-available/default
 sudo service nginx restart
-exit 0
