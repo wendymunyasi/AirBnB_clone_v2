@@ -10,7 +10,7 @@ service nginx start
 # Create the folder /data/web_static/ if it doesn’t already exist
 # Create the folder /data/web_static/releases/ if it doesn’t already exist
 #Create the folder /data/web_static/releases/test/ if it doesn’t already exist
-mkdir /data/web_static/releases/test/
+mkdir -p /data/web_static/releases/test/
 
 # Create the folder /data/web_static/shared/ if it doesn’t already exist
 mkdir -p /data/web_static/shared/
