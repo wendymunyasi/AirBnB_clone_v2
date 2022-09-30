@@ -5,8 +5,9 @@ script that distributes archive to webservers
 import os.path
 from fabric.api import *
 from fabric.operations import run, put
-from datetime import datetime
-import os
+import shlex
+
+
 env.hosts = ['3.227.217.150', '3.95.27.202']
 env.user = "ubuntu"
 
@@ -27,16 +28,21 @@ def do_deploy(archive_path):
         # Uncompress the archive to the folder,
         # /data/web_static/releases/<archive filename without extension>
         # on the web server
-        try:
-            new_comp = archive_path.split("/")[-1]
-            new_fold = ("/data/web_static/releases/" + new_comp.split(".")[0])
-        except Exception:
-            print("failed to get archive name from split...")
-            return False
+        wExtension = archive_path.replace('/', ' ')
+        wExtension = shlex.split(wExtension)
+        wExtension = wExtension[-1]
 
-        if new_fold.failed:
+        # Get name without extension
+        noExtention = wExtension.replace('.', ' ')
+        noExtention = shlex.split(noExtention)
+        noExtention = noExtention[0]
+
+        releases_path = "/data/web_static/releases/{}/".format(noExtention)
+        if releases_path.failed:
             print("failed to create archive directory for release...")
             return False
+
+        tmp_path = "/tmp/{}".format(wExtension)
 
         # upload the archive to the /tmp/ directory of the web server
         uploaded = put(archive_path, "/tmp/")
@@ -44,44 +50,52 @@ def do_deploy(archive_path):
             return False
 
         # Create new directory for release
-        new_dir = run("sudo mkdir -p {}".format(new_fold))
+        new_dir = run("mkdir -p {}".format(releases_path))
         if new_dir.failed:
             print("failed to create archive directory for relase...")
             return False
 
         # Untar archive
-        untar = run("sudo tar -xzf /tmp/{} -C {}".format(new_comp, new_fold))
+        untar = run("tar -xzf {} -C {}".format(tmp_path, releases_path))
         if untar.failed:
             print("failed to untar archive...")
             return False
 
         # Delete the archive from the web server
-        result = run("sudo rm /tmp/{}".format(new_comp))
-        if result.failed:
+        deleted = run("rm {}".format(tmp_path))
+        if deleted.failed:
             print("failed to remove archive...")
             return False
 
-        mov = run("sudo mv {}/web_static/* {}/".format(new_fold, new_fold))
+        # Move extraction to proper directory
+        mov = run("mv {}web_static/* {}".format(releases_path, releases_path))
         if mov.failed:
             print("failed to move extraction to proper directory...")
             return False
 
-        run("sudo rm -rf {}/web_static".format(new_fold))
+        # Delete first copy of extraction after move
+        rem_fir = run("rm -rf {}web_static".format(releases_path))
+        if rem_fir.failed:
+            print("failed to remove first copy of extraction after move...")
+            return False
 
         # Delete the symbolic link /data/web_static/current from the web server
-        del_old = run('sudo rm -rf /data/web_static/current')
-        if del_old.failed:
+        sym_old = run("rm -rf /data/web_static/current")
+        if sym_old.failed:
             print("failed to clean up old release...")
             return False
 
         # Create new the symbolic link /data/web_static/current on web server,
         # linked to the new version of your code,
         # (/data/web_static/releases/<archive filename without extension>
-        link = run("sudo ln -s {} /data/web_static/current".format(new_fold))
-        if link.failed:
+        symNew = run("ln -s {} /data/web_static/current".format(releases_path))
+        if symNew.failed:
             print("failed to create link to new release...")
             return False
+
+        print("New version deployed!")
         return True
 
     except Exception:
+        print("Could not deploy")
         return False
