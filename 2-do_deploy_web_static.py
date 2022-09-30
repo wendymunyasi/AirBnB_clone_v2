@@ -8,26 +8,7 @@ from fabric.operations import run, put
 from datetime import datetime
 import os
 env.hosts = ['3.227.217.150', '3.95.27.202']
-
-
-def do_pack():
-    """ generates a .tgz archive from the contents of the web_static
-
-    Returns:
-        fabric.operations._AttributeString: archive path.
-    """
-    now = datetime.now().strftime("%Y%m%d%H%M%S")
-
-    # create folder versions if it doesn’t exist
-    local("mkdir -p versions")
-
-    # extract the contents of a tar archive
-    result = local("tar -czvf versions/web_static_{}.tgz web_static"
-                   .format(now))
-    if result.failed:
-        return None
-    else:
-        return result
+env.user = "ubuntu"
 
 
 def do_deploy(archive_path):
