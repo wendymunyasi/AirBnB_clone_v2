@@ -2,7 +2,7 @@
 # script that sets up your web servers for the deployment of web_static. 
 
 # install Nginx and start it
-apt-get update
+apt-get -y update
 apt-get install -y nginx
 service nginx start
 
@@ -27,7 +27,7 @@ echo "<!DOCTYPE html>
 
 # Create a symbolic link /data/web_static/current linked to the /data/web_static/releases/test/
 # If the symbolic link already exists, it should be deleted and recreated every time the script is ran
-ln -fs /data/web_static/releases/test/ /data/web_static/current
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 # Give ownership of the /data/ folder to the ubuntu user AND group (you can assume this user and group exist).
 # This should be recursive; everything inside should be created/owned by this user/group.
