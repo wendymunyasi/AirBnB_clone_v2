@@ -37,4 +37,5 @@ chown -R ubuntu:ubuntu /data/
 # (ex: https://mydomainname.tech/hbnb_static). Don’t forget to restart Nginx after updating the configuration:
 # Use alias inside your Nginx configuration
 sed -i '38i\\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t\tautoindex off;\n\t}\n' /etc/nginx/sites-available/default
-sudo service nginx restart
+service nginx restart
+service nginx reload
