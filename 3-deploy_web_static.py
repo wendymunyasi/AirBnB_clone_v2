@@ -48,18 +48,26 @@ def do_pack():
     Returns:
         fabric.operations._AttributeString: archive path.
     """
-    now = datetime.now().strftime("%Y%m%d%H%M%S")
-
-    # create folder versions if it doesn’t exist
-    local("mkdir -p versions")
-
-    # extract the contents of a tar archive
-    result = local("tar -czvf versions/web_static_{}.tgz web_static"
-                   .format(now))
-    if result.failed:
-        return None
-    else:
-        return result
+    if not os.path.isdir("versions"):
+        os.mkdir("versions")
+    cur_time = datetime.now()
+    output = "versions/web_static_{}{}{}{}{}{}.tgz".format(
+        cur_time.year,
+        cur_time.month,
+        cur_time.day,
+        cur_time.hour,
+        cur_time.minute,
+        cur_time.second
+    )
+    try:
+        print("Packing web_static to {}".format(output))
+        # extract the contents of a tar archive
+        local("tar -cvzf {} web_static".format(output))
+        archize_size = os.stat(output).st_size
+        print("web_static packed: {} -> {} Bytes".format(output, archize_size))
+    except Exception:
+        output = None
+    return output
 
 
 def do_deploy(archive_path):
