@@ -13,6 +13,28 @@ env.hosts = ['3.227.217.150', '3.95.27.202']
 env.user = "ubuntu"
 
 
+def deploy():
+    """creates and distributes an archive to your web servers
+
+    All remote commands must be executed on both of web your servers (using
+    env.hosts = ['<IP web-01>', 'IP web-02'] variable in your script).
+    You must use this script to deploy it on your servers: xx-web-01 and
+    xx-web-02.
+
+    Returns:
+        _type_: value of do_deploy
+    """
+    # Call the do_pack() function and store the path of the created archive
+    archive_path = do_pack()
+    if archive_path is None:
+        print("Failed to create archive from web_static")
+        return False
+
+    # Call do_deploy function, using the new path of the new archive and
+    # return the return value of do_deploy
+    return do_deploy(archive_path)
+
+
 def do_pack():
     """ generates a .tgz archive from the contents of the web_static
 
@@ -93,25 +115,3 @@ def do_deploy(archive_path):
         success = False
         print("Could not deploy")
     return success
-
-
-def deploy():
-    """creates and distributes an archive to your web servers
-
-    All remote commands must be executed on both of web your servers (using
-    env.hosts = ['<IP web-01>', 'IP web-02'] variable in your script).
-    You must use this script to deploy it on your servers: xx-web-01 and
-    xx-web-02.
-
-    Returns:
-        _type_: value of do_deploy
-    """
-    # Call the do_pack() function and store the path of the created archive
-    archive_path = do_pack()
-    if archive_path is None:
-        print("Failed to create archive from web_static")
-        return False
-
-    # Call do_deploy function, using the new path of the new archive and
-    # return the return value of do_deploy
-    return do_deploy(archive_path)
