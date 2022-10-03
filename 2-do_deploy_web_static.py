@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-script that distributes archive to webservers
+script based on the file 1-pack_web_static.py that distributes archive to
+webservers
 """
 import os.path
 from fabric.api import *
@@ -10,6 +11,7 @@ from datetime import datetime
 
 env.hosts = ['3.227.217.150', '3.95.27.202']
 env.user = "ubuntu"
+
 
 def do_pack():
     """ generates a .tgz archive from the contents of the web_static
@@ -36,6 +38,7 @@ def do_pack():
         return None
     else:
         return result
+
 
 def do_deploy(archive_path):
     """distributes an archive to your web servers.
