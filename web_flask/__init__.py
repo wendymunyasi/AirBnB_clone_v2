@@ -7,5 +7,3 @@ from flask import Flask
 
 # create an instance called app of the class by passong the __name__ variable
 app = Flask(__name__)
-
-
