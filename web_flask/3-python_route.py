@@ -7,9 +7,10 @@ from flask import Flask
 
 # create an instance called app of the class by passong the __name__ variable
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
 
-@app.route('/', strict_slashes=False)
+@app.route('/')
 def index():
     """serves the home page
 
@@ -19,7 +20,7 @@ def index():
     return 'Hello HBNB!'
 
 
-@app.route('/hbnb', strict_slashes=False)
+@app.route('/hbnb')
 def hbnb_route():
     """serves another page
     Returns:
@@ -28,7 +29,7 @@ def hbnb_route():
     return 'HBNB'
 
 
-@app.route('/c/<text>', strict_slashes=False)
+@app.route('/c/<text>')
 def c_route(text):
     """serves another page
 
@@ -42,7 +43,7 @@ def c_route(text):
 
 
 @app.route('/python', defaults={'text': 'is cool'})
-@app.route('/python/<text>', strict_slashes=False)
+@app.route('/python/<text>')
 def python_route(text):
     """serves another page
 
