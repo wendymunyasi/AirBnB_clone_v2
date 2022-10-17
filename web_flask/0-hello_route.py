@@ -7,9 +7,10 @@ from flask import Flask
 
 # create an instance called app of the class by passong the __name__ variable
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
 
-@app.route('/', strict_slashes=False)
+@app.route('/')
 def index():
     """serves the home page
 
