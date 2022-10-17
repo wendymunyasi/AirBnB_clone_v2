@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
-from models.base_model import BaseModel, Base
-from models.city import City
+from os import environ
+
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from os import environ
+
 import models
+from models.base_model import Base, BaseModel
+from models.city import City
 
 
 class State(BaseModel, Base):
@@ -30,5 +32,9 @@ class State(BaseModel, Base):
     if environ.get('HBNB_TYPE_STORAGE') != 'db':
         @property
         def cities(self):
+            """Return the list of City objects from storage linked to the current State
+
+            Returns: cities in a state
+            """
             return [city for city in models.storage.all(
                 City).values() if city.state_id == self.id]

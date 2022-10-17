@@ -1,20 +1,18 @@
 #!/usr/bin/python3
 """This is the file storage class for AirBnB"""
 import json
-from models.base_model import BaseModel
-from models.user import User
-from models.state import State
-from models.city import City
+import os
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+
 from models.amenity import Amenity
+from models.base_model import Base, BaseModel
+from models.city import City
 from models.place import Place
 from models.review import Review
-from models.base_model import BaseModel, Base
-import json
-import os
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm import scoped_session
-from sqlalchemy import (create_engine)
-
+from models.state import State
+from models.user import User
 
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}

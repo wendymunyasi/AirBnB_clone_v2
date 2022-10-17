@@ -1,18 +1,25 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
-from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from os import environ
+
+from sqlalchemy import Column, Float, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import relationship
+
 import models
 from models.amenity import Amenity
+from models.base_model import Base, BaseModel
 
-metadata = Base.metadata
-place_amenity = Table('place_amenity', metadata,
-                      Column('place_id', String(60),
-                             ForeignKey('places.id', ondelete='CASCADE')),
-                      Column('amenity_id', String(60),
-                             ForeignKey('amenities.id', ondelete='CASCADE')))
+if environ.get('HBNB_TYPE_STORAGE') == 'db':
+    place_amenity = Table('place_amenity', Base.metadata,
+                          Column('place_id', String(60),
+                                 ForeignKey('places.id', ondelete='CASCADE'),
+                                 primary_key=True,
+                                 nullable=False),
+                          Column('amenity_id', String(60),
+                                 ForeignKey('amenities.id',
+                                            ondelete='CASCADE'),
+                                 primary_key=True,
+                                 nullable=False))
 
 
 class Place(BaseModel, Base):
