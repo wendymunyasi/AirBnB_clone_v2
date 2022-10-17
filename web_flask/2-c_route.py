@@ -9,26 +9,26 @@ from flask import Flask
 app = Flask(__name__)
 
 
-@app.route("/", strict_slashes=False)
+@app.route('/', strict_slashes=False)
 def index():
     """serves the home page
 
     Returns:
         str: text on the index page
     """
-    return "Hello HBNB!"
+    return 'Hello HBNB!'
 
 
-@app.route("/hbnb", strict_slashes=False)
+@app.route('/hbnb', strict_slashes=False)
 def hbnb_route():
     """serves another page
     Returns:
         str: text on the page
     """
-    return "HBNB"
+    return 'HBNB'
 
 
-@app.route("/c/<text>", strict_slashes=False)
+@app.route('/c/<text>', strict_slashes=False)
 def c_route(text):
     """serves another page
 
@@ -38,8 +38,8 @@ def c_route(text):
     Returns:
         str: text on the page
     """
-    return "C {}".format(text.replace('_', ' '))
+    return 'C {}'.format(text.replace('_', ' '))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
