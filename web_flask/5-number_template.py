@@ -83,7 +83,7 @@ def number_template_route(n):
     Returns:
         str: text on the page
     """
-    return render_template('5-number.html')
+    return render_template('5-number.html', num=n)
 
 
 if __name__ == '__main__':
