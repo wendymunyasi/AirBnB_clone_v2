@@ -92,11 +92,12 @@ def number_odd_or_even_route(n):
 
     Args:
         n (integer): number to be displayed on page
-        
+
     Returns:
         str: text on the page
     """
     return render_template('6-number_odd_or_even.html', num=n)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
