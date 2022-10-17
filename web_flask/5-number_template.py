@@ -2,12 +2,12 @@
 """script that starts a Flask web application"""
 
 
+# import Flask class from flask module
 # import render_template for rendering templates to browser
-from flask import render_template
+from flask import Flask, render_template
 
-# import the app instance
-from . import app
-
+# create an instance called app of the class by passong the __name__ variable
+app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 
