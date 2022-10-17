@@ -12,7 +12,7 @@ app.url_map.strict_slashes = False
 
 @app.route('/')
 def index():
-    """serves the home page
+    """display "Hello HBNB!"
 
     Returns:
         str: text on the index page

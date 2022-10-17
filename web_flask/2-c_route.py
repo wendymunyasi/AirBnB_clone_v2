@@ -12,7 +12,7 @@ app.url_map.strict_slashes = False
 
 @app.route('/')
 def index():
-    """serves the home page
+    """display "Hello HBNB!"
 
     Returns:
         str: text on the index page
@@ -22,7 +22,8 @@ def index():
 
 @app.route('/hbnb')
 def hbnb_route():
-    """serves another page
+    """display "HBNB
+
     Returns:
         str: text on the page
     """
@@ -31,7 +32,7 @@ def hbnb_route():
 
 @app.route('/c/<text>')
 def c_route(text):
-    """serves another page
+    """display "C", followed by the value of the text variable
 
     Args:
         text (str): text to be served on the page
