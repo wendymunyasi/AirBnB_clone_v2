@@ -96,7 +96,12 @@ def number_odd_or_even_route(n):
     Returns:
         str: text on the page
     """
-    return render_template('6-number_odd_or_even.html', num=n)
+    if n % 2 == 0:
+        condition = 'even'
+    else:
+        condition = 'odd'
+    return render_template('6-number_odd_or_even.html', n=n,
+                           condition=condition)
 
 
 if __name__ == '__main__':
